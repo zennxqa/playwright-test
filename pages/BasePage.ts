@@ -1,5 +1,13 @@
 import { type Locator, type Page } from '@playwright/test';
 
+/** Core Web Vitals in milliseconds (CLS is unitless). */
+export type WebVitals = {
+  lcp: number;
+  cls: number;
+  fcp: number;
+  ttfb: number;
+};
+
 /**
  * Shared header/navigation elements present on every playwright.dev page.
  */
@@ -36,5 +44,39 @@ export abstract class BasePage {
 
   async openApi(): Promise<void> {
     await this.apiLink.click();
+  }
+
+  /**
+   * Reads Core Web Vitals for the current page from the browser Performance API.
+   * LCP and CLS entries are Chromium-only; call after goto().
+   */
+  async getWebVitals(): Promise<WebVitals> {
+    return this.page.evaluate(
+      () =>
+        new Promise<WebVitals>((resolve) => {
+          const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+          const fcp = performance.getEntriesByName('first-contentful-paint')[0];
+          const vitals: WebVitals = {
+            lcp: 0,
+            cls: 0,
+            fcp: fcp?.startTime ?? 0,
+            ttfb: nav?.responseStart ?? 0,
+          };
+
+          new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            vitals.lcp = entries[entries.length - 1].startTime;
+          }).observe({ type: 'largest-contentful-paint', buffered: true });
+
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries() as (PerformanceEntry & { value: number; hadRecentInput: boolean })[]) {
+              if (!entry.hadRecentInput) vitals.cls += entry.value;
+            }
+          }).observe({ type: 'layout-shift', buffered: true });
+
+          // Buffered observer callbacks are delivered asynchronously.
+          setTimeout(() => resolve(vitals), 1000);
+        }),
+    );
   }
 }
