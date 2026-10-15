@@ -8,7 +8,7 @@ export class HomePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.heroTitle = page.locator('h2.hero__title');
+    this.heroTitle = page.locator('h1.hero__title');
     this.getStartedButton = page.getByRole('link', { name: 'Get started' });
   }
 
