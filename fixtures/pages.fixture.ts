@@ -2,11 +2,13 @@ import { test as base } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { DocsPage } from '../pages/DocsPage';
 import { SearchModal } from '../pages/SearchModal';
+import { MobileNav } from '../pages/MobileNav';
 
 type Pages = {
   homePage: HomePage;
   docsPage: DocsPage;
   searchModal: SearchModal;
+  mobileNav: MobileNav;
 };
 
 export const test = base.extend<Pages>({
@@ -18,6 +20,9 @@ export const test = base.extend<Pages>({
   },
   searchModal: async ({ page }, use) => {
     await use(new SearchModal(page));
+  },
+  mobileNav: async ({ page }, use) => {
+    await use(new MobileNav(page));
   },
 });
 
