@@ -1,5 +1,15 @@
 import { test, expect } from '../fixtures/pages.fixture';
 
+test.describe('CURA landing page', () => {
+  test('header title "CURA Healthcare Service" is blue', async ({ curaHomePage }) => {
+    await curaHomePage.goto();
+
+    await expect(curaHomePage.headerTitle).toHaveText('CURA Healthcare Service');
+    // Requirement: the landing page h1 colour is blue (CSS `blue` = rgb(0, 0, 255)).
+    await expect(curaHomePage.headerTitle).toHaveCSS('color', 'rgb(0, 0, 255)');
+  });
+});
+
 test.describe('CURA login with valid credentials', () => {
   test.beforeEach(async ({ curaLoginPage }) => {
     await curaLoginPage.goto();

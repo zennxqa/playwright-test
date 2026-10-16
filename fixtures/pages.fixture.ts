@@ -4,6 +4,7 @@ import { DocsPage } from '../pages/DocsPage';
 import { SearchModal } from '../pages/SearchModal';
 import { MobileNav } from '../pages/MobileNav';
 import { CuraLoginPage } from '../pages/CuraLoginPage';
+import { CuraHomePage } from '../pages/CuraHomePage';
 
 type Pages = {
   homePage: HomePage;
@@ -11,6 +12,7 @@ type Pages = {
   searchModal: SearchModal;
   mobileNav: MobileNav;
   curaLoginPage: CuraLoginPage;
+  curaHomePage: CuraHomePage;
 };
 
 export const test = base.extend<Pages>({
@@ -28,6 +30,9 @@ export const test = base.extend<Pages>({
   },
   curaLoginPage: async ({ page }, use) => {
     await use(new CuraLoginPage(page));
+  },
+  curaHomePage: async ({ page }, use) => {
+    await use(new CuraHomePage(page));
   },
 });
 
