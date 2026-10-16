@@ -53,6 +53,7 @@ Defined in `playwright.config.ts`:
 | `tests/home.spec.ts` | Title, hero heading, navbar links, Get started → Installation, theme toggle |
 | `tests/docs.spec.ts` | Installation heading and sidebar, sidebar navigation, next-page link, API link |
 | `tests/search.spec.ts` | Search modal returns results for "locator" |
+| `tests/cura-login.spec.ts` | CURA demo (katalon-demo-cura.herokuapp.com) Login page: form elements, valid login, login form hidden once signed in. Uses `CURA_USERNAME` / `CURA_PASSWORD` if set, else the demo account shown on the page |
 
 ## Adding tests
 
