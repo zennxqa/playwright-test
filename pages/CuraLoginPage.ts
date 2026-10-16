@@ -31,7 +31,7 @@ export class CuraLoginPage {
     this.demoUsername = loginSection.getByRole('textbox', { name: 'Username' }).and(page.locator(':not(#txt-username)'));
     this.demoPassword = loginSection.getByRole('textbox', { name: 'Password' }).and(page.locator(':not(#txt-password)'));
     // Shown in the signed-in area after a successful login.
-    this.appointmentHeading = page.getByRole('heading', { name: 'Make Appointmentx', level: 2 });
+    this.appointmentHeading = page.getByRole('heading', { name: 'Make Appointment', level: 2 });
   }
 
   async goto(): Promise<void> {
